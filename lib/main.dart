@@ -14,8 +14,22 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Weather App'),
         ),
-        body: const Center(
-          child: Text('Weather App'),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              TextField(
+                decoration: const InputDecoration(
+                  labelText: 'Enter city name',
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {},
+                child: const Text('Fetch Weather'),
+              ),
+              const Text('Weather Info will appear here'),
+            ],
+          ),
         ),
       ),
     );
