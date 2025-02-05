@@ -55,6 +55,10 @@ class _WeatherAppState extends State<WeatherApp> {
               onPressed: fetchWeather,
               child: const Text('Fetch Weather'),
             ),
+            ElevatedButton(
+              onPressed: () {}, // This will be implemented in the next step
+              child: const Text('Fetch 7-Day Forecast'),
+            ),
             Text('Weather Info for $cityName'),
             Text('Temperature: $temperature °C'),
             Text('Condition: $weatherCondition'),
