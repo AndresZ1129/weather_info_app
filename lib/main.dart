@@ -16,6 +16,13 @@ class MyApp extends StatelessWidget {
   }
 }
 
+class WeatherForecast {
+  String date;
+  String condition;
+  double temperature;
+  WeatherForecast(this.date, this.condition, this.temperature);
+}
+
 class WeatherApp extends StatefulWidget {
   @override
   _WeatherAppState createState() => _WeatherAppState();
@@ -25,6 +32,7 @@ class _WeatherAppState extends State<WeatherApp> {
   String cityName = '';
   String weatherCondition = '';
   double temperature = 0.0;
+  List<WeatherForecast> forecast = [];
 
   void fetchWeather() {
     Random random = Random();
@@ -32,6 +40,18 @@ class _WeatherAppState extends State<WeatherApp> {
       temperature = 15 + random.nextDouble()*16; // Random temp between 15°C and 30°C
       List<String> conditions = ['Sunny', 'Cloudy', 'Rainy'];
       weatherCondition = conditions[random.nextInt(conditions.length)];
+    });
+  }
+
+  void fetch7DayWeather() {
+    setState(() {
+      forecast = List.generate(7, (index) {
+        Random random = Random();
+        double temp = 15 + random.nextDouble()*16;
+        String cond = ['Sunny', 'Cloudy', 'Rainy'][random.nextInt(3)];
+        String date = DateTime.now().add(Duration(days: index)).toString().split(' ')[0];
+        return WeatherForecast(date, cond, temp);
+      });
     });
   }
 
@@ -55,9 +75,42 @@ class _WeatherAppState extends State<WeatherApp> {
               onPressed: fetchWeather,
               child: const Text('Fetch Weather'),
             ),
+            ElevatedButton(
+              onPressed: fetch7DayWeather,
+              child: const Text('Fetch 7-Day Forecast'),
+            ),
             Text('Weather Info for $cityName'),
             Text('Temperature: $temperature °C'),
             Text('Condition: $weatherCondition'),
+            Expanded(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Table(
+                  border: TableBorder.all(),
+                  columnWidths: const <int, TableColumnWidth>{
+                    0: FixedColumnWidth(100.0),
+                    1: FixedColumnWidth(100.0),
+                    2: FixedColumnWidth(100.0),
+                  },
+                  children: [
+                    TableRow(
+                      children: [
+                        TableCell(child: Center(child: Text('Date', style: TextStyle(fontWeight: FontWeight.bold)))),
+                        TableCell(child: Center(child: Text('Temperature', style: TextStyle(fontWeight: FontWeight.bold)))),
+                        TableCell(child: Center(child: Text('Condition', style: TextStyle(fontWeight: FontWeight.bold)))),
+                      ],
+                    ),
+                    ...forecast.map((forecast) => TableRow(
+                      children: [
+                        TableCell(child: Center(child: Text(forecast.date))),
+                        TableCell(child: Center(child: Text('${forecast.temperature}°C'))),
+                        TableCell(child: Center(child: Text(forecast.condition))),
+                      ],
+                    )).toList(),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
