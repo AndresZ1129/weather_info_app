@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'dart:math';
+
+import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MyApp());
@@ -37,7 +38,8 @@ class _WeatherAppState extends State<WeatherApp> {
   void fetchWeather() {
     Random random = Random();
     setState(() {
-      temperature = 15 + random.nextDouble()*16; // Random temp between 15°C and 30°C
+      temperature =
+          random.nextInt(15) + 15; // Random temp between 15°C and 30°C
       List<String> conditions = ['Sunny', 'Cloudy', 'Rainy'];
       weatherCondition = conditions[random.nextInt(conditions.length)];
     });
@@ -47,9 +49,10 @@ class _WeatherAppState extends State<WeatherApp> {
     setState(() {
       forecast = List.generate(7, (index) {
         Random random = Random();
-        double temp = 15 + random.nextDouble()*16;
+        double temp = random.nextInt(15) + 15;
         String cond = ['Sunny', 'Cloudy', 'Rainy'][random.nextInt(3)];
-        String date = DateTime.now().add(Duration(days: index)).toString().split(' ')[0];
+        String date =
+            DateTime.now().add(Duration(days: index)).toString().split(' ')[0];
         return WeatherForecast(date, cond, temp);
       });
     });
@@ -95,18 +98,38 @@ class _WeatherAppState extends State<WeatherApp> {
                   children: [
                     TableRow(
                       children: [
-                        TableCell(child: Center(child: Text('Date', style: TextStyle(fontWeight: FontWeight.bold)))),
-                        TableCell(child: Center(child: Text('Temperature', style: TextStyle(fontWeight: FontWeight.bold)))),
-                        TableCell(child: Center(child: Text('Condition', style: TextStyle(fontWeight: FontWeight.bold)))),
+                        TableCell(
+                            child: Center(
+                                child: Text('Date',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold)))),
+                        TableCell(
+                            child: Center(
+                                child: Text('Temperature',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold)))),
+                        TableCell(
+                            child: Center(
+                                child: Text('Condition',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold)))),
                       ],
                     ),
-                    ...forecast.map((forecast) => TableRow(
-                      children: [
-                        TableCell(child: Center(child: Text(forecast.date))),
-                        TableCell(child: Center(child: Text('${forecast.temperature}°C'))),
-                        TableCell(child: Center(child: Text(forecast.condition))),
-                      ],
-                    )).toList(),
+                    ...forecast
+                        .map((forecast) => TableRow(
+                              children: [
+                                TableCell(
+                                    child: Center(child: Text(forecast.date))),
+                                TableCell(
+                                    child: Center(
+                                        child:
+                                            Text('${forecast.temperature}°C'))),
+                                TableCell(
+                                    child: Center(
+                                        child: Text(forecast.condition))),
+                              ],
+                            ))
+                        .toList(),
                   ],
                 ),
               ),
