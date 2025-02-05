@@ -1,4 +1,4 @@
-# digital_pet_app
+# weather_info_app
 
 A new Flutter project.
 
