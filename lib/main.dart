@@ -29,7 +29,7 @@ class _WeatherAppState extends State<WeatherApp> {
   void fetchWeather() {
     Random random = Random();
     setState(() {
-      temperature = 15 + random.nextInt(16); // Random temp between 15°C and 30°C
+      temperature = 15 + random.nextDouble()*16; // Random temp between 15°C and 30°C
       List<String> conditions = ['Sunny', 'Cloudy', 'Rainy'];
       weatherCondition = conditions[random.nextInt(conditions.length)];
     });
